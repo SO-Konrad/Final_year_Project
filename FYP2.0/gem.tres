@@ -3,4 +3,10 @@
 [resource]
 flags_transparent = true
 albedo_color = Color( 0.109804, 0.72549, 0.752941, 0.682353 )
-metallic = 0.1
+metallic = 0.6
+roughness = 0.2
+anisotropy_enabled = true
+anisotropy = 1.0
+refraction_enabled = true
+refraction_scale = 0.11
+refraction_texture_channel = 0

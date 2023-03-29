@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Cone.gd" type="Script" id=1]
+[ext_resource path="res://WallTexture.tres" type="Material" id=2]
+
+[sub_resource type="CylinderMesh" id=1]
+resource_local_to_scene = true
+top_radius = 0.0
+bottom_radius = 0.3
+height = 1.0
+radial_segments = 16
+
+[node name="Stalactite" type="MeshInstance"]
+transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0 )
+material_override = ExtResource( 2 )
+mesh = SubResource( 1 )
+script = ExtResource( 1 )

@@ -13,9 +13,8 @@ var vertices2 = PoolVector3Array()
 var normals2 = PoolVector3Array()
 
 onready var node = $"."
-onready var horizontal_exit = $"Horizontal_Exit"
 onready var diagonal_exit = $"Diagonal_Exit"
-onready var cone = preload("res://Cone.tscn")
+onready var cone = preload("res://Stalactite.tscn")
 onready var crystal = preload("res://Crystal.tscn")
 
 var horizontal = true
@@ -29,7 +28,7 @@ func _ready():
 		smooth_Map()                     #Runs cellular automata to smooth out map
 		
 	lable_zones()                      #Connects cave zones and sets player spawn in eligible position
-	connect_Zones()   
+	connect_Zones()
 	mesh_data.resize(Mesh.ARRAY_MAX)
 	squareGrid = SquareGrid.new(map)
 	add_textures()
@@ -143,7 +142,7 @@ func connect_Zones():
 						bestNode1 = node1
 						bestNode2 = node2
 						bestJ = j
-		create_passage(bestNode1,bestNode2)
+		create_passage(bestNode1,bestNode2,i)
 		connected.push_back([i,bestJ])
 	for i in range(len(edgeNodes)):
 		var bestDistance = 100000
@@ -156,15 +155,16 @@ func connect_Zones():
 			for node1 in edgeNodes[i]:
 				for node2 in edgeNodes[j]:
 					var distance = pow(node1[0] - node2[0], 2) + pow(node1[1] - node2[1],2)
-					if (distance < bestDistance && !(connected.has([i,j]))):
+					if (distance < bestDistance && !(connected.has([i,j])) && !connected.has([j,i])):
 						bestDistance = distance
 						bestNode1 = node1
 						bestNode2 = node2
 						bestJ = j
-		create_passage(bestNode1,bestNode2)
+		create_passage(bestNode1,bestNode2,i)
 		connected.push_back([i,bestJ])
 		
-func create_passage(node1,node2):
+		
+func create_passage(node1,node2,pos):
 	var x_Range = float(abs(node1[0] - node2[0]))
 	var y_Range = float(abs(node1[1] - node2[1]))
 	var shortestX = node1 if (node1[0] < node2[0]) else  node2
@@ -178,11 +178,11 @@ func create_passage(node1,node2):
 		if(shortestY == longestX):
 			gradient *= -1
 		#print("Gradient: ", gradient)
-		for i in range(shortestX[0],longestX[0]):
-			gradientCounter+=gradient
-			map[i][shortestX[1]+gradientCounter] = 0
-			map[i][shortestX[1]+gradientCounter+1] = 0
-			#print("X: ",i, "Y: ",shortestX[1]+gradientCounter)
+			for i in range(shortestX[0],longestX[0]):
+				gradientCounter+=gradient
+				map[i][shortestX[1]+gradientCounter] = 0
+				map[i][shortestX[1]+gradientCounter+1] = 0
+				#print("X: ",i, "Y: ",shortestX[1]+gradientCounter)
 	else:
 		var gradient = float(x_Range/y_Range)
 		if(shortestY == longestX):
@@ -212,7 +212,7 @@ func add_textures():
 	for x in edgeNodes:
 		for y in x:
 			var chance = randi()%10
-			if(chance == 0):
+			if(chance <= 1):
 				var object = crystal.instance()
 				var scaleWeight = rand_range(.1,.25)
 				object.scale = Vector3(scaleWeight,scaleWeight,scaleWeight)
@@ -267,13 +267,7 @@ func draw_Cave():
 	
 	var vector = vertices2[0]
 	
-	if(vertices2[0].z != vertices2[6].z):
-		horizontal = false;
-		
-	if(horizontal):
-		horizontal_exit.transform.origin = (Vector3(vector.x-1, 1.5, vector.z+1))
-	else:
-		diagonal_exit.transform.origin = (Vector3(vector.x-2.23, 1.5, vector.z+.5))
+	diagonal_exit.transform.origin = (Vector3(vector.x-2.23, 1.5, vector.z+.5))
 		
 	mesh_data[Mesh.ARRAY_VERTEX] = vertices2
 	mesh_data[Mesh.ARRAY_NORMAL] = normals2
@@ -291,13 +285,13 @@ func marching_Square(var square):
 	elif(square.value == 1):
 		generate_Mesh([square.centerLeft,square.centerBottom])
 	elif(square.value == 2):
-		generate_Mesh([square.centerBottom,square.centerRight,])
+		generate_Mesh([square.centerBottom,square.centerRight])
 	elif(square.value == 3):
 		generate_Mesh([square.centerLeft,square.centerRight])
 	elif(square.value == 4):
 		generate_Mesh([square.centerRight,square.centerTop])
 	elif(square.value == 5):
-		generate_Mesh_2([square.centerBottom,square.centerLeft,square.centerRight,square.centerTop])
+		generate_Mesh_2([square.centerLeft,square.centerBottom,square.centerRight,square.centerTop])
 	elif(square.value == 6):
 		generate_Mesh([square.centerBottom,square.centerTop])
 	elif(square.value == 7):
@@ -307,7 +301,7 @@ func marching_Square(var square):
 	elif(square.value == 9):
 		generate_Mesh([square.centerTop,square.centerBottom])
 	elif(square.value == 10):
-		generate_Mesh_2([square.centerTop,square.centerLeft,square.centerRight,square.centerBottom])
+		generate_Mesh_2([square.centerTop,square.centerLeft,square.centerBottom,square.centerRight])
 	elif(square.value == 11):
 		generate_Mesh([square.centerTop,square.centerRight])
 	elif(square.value == 12):
@@ -345,14 +339,14 @@ func generate_Mesh_2(var a):
 	vertices.push_back(a[0].position + Vector3(0,3,0))
 	
 	vertices.push_back(a[2].position)
-	vertices.push_back(a[3].position + Vector3(0,3,0))
 	vertices.push_back(a[3].position)
-	vertices.push_back(a[2].position)
-	vertices.push_back(a[2].position + Vector3(0,3,0))
 	vertices.push_back(a[3].position + Vector3(0,3,0))
+	vertices.push_back(a[2].position)
+	vertices.push_back(a[3].position + Vector3(0,3,0))
+	vertices.push_back(a[2].position + Vector3(0,3,0))
 	
 	var norm1 = calc_norm(a[0].position,a[1].position,a[1].position + Vector3(0,3,0))
-	var norm2 = calc_norm(a[2].position,a[3].position + Vector3(0,3,0),a[3].position)
+	var norm2 = calc_norm(a[2].position,a[3].position,a[3].position + Vector3(0,3,0))
 	
 	normals.push_back(norm1)
 	normals.push_back(norm1)
@@ -467,7 +461,4 @@ func _on_Area_body_exited(_body):
 	mesh.surface_remove(1)
 	node.remove_child(despawnWall)
 	
-	if(horizontal):
-		horizontal_exit.visible = true
-	else:
-		diagonal_exit.visible = true
+	diagonal_exit.visible = true

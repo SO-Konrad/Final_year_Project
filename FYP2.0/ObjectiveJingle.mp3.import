@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ObjectiveJingle.mp3-373b7b2c3062d0c607bdd7f34078ac2e.mp3str"
+
+[deps]
+
+source_file="res://ObjectiveJingle.mp3"
+dest_files=[ "res://.import/ObjectiveJingle.mp3-373b7b2c3062d0c607bdd7f34078ac2e.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

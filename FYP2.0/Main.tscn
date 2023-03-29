@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://red.tres" type="Material" id=1]
+[ext_resource path="res://WallTexture.tres" type="Material" id=1]
 [ext_resource path="res://Movement.gd" type="Script" id=2]
 [ext_resource path="res://CaveGenerator.gd" type="Script" id=3]
 [ext_resource path="res://MeshGenerator.gd" type="Script" id=4]
@@ -9,6 +9,11 @@
 [ext_resource path="res://Timer.gd" type="Script" id=7]
 [ext_resource path="res://Lato-Black.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://SeedDisplay.gd" type="Script" id=9]
+[ext_resource path="res://Footsteps.mp3" type="AudioStream" id=10]
+[ext_resource path="res://ObjectiveJingle.mp3" type="AudioStream" id=11]
+[ext_resource path="res://covered-by-your-grace.regular.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://oldgatelaneoutline.regular.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://Camera.gd" type="Script" id=14]
 
 [sub_resource type="ArrayMesh" id=34]
 surfaces/0 = {
@@ -65,16 +70,17 @@ mid_height = 0.5
 points = PoolVector3Array( -0.486334, 0.0851904, -0.316362, 0.495684, 0.00357139, 0.297266, 0.495478, 0.0444994, 0.276629, 0.248279, -0.220632, -0.621886, -0.158881, -0.442959, 0.416106, -0.0373677, 0.473987, 0.39873, 0.126427, 0.412931, -0.501628, -0.26348, 0.065169, 0.667782, -0.220347, -0.301781, -0.580331, 0.248321, -0.424597, 0.336511, 0.189013, -0.0169579, 0.711029, -0.44248, -0.219359, 0.31425, -0.24041, 0.30862, -0.559216, -0.40173, 0.287264, 0.314122, 0.428233, 0.246167, -0.31344, -0.0579505, -0.488219, -0.338086, 0.429801, -0.23992, -0.334912, 0.286475, 0.387519, 0.373792, 0.0861313, 0.0861313, -0.733006, -0.23992, 0.4298, -0.334912, -0.360524, -0.340276, -0.293324, -0.0783783, -0.262693, 0.666055, -0.324208, -0.0577489, -0.624811, -0.0785357, 0.290995, 0.646783, 0.433465, 0.0854329, -0.481075, 0.166004, 0.470636, -0.253816, 0.206648, -0.422814, -0.416276, 0.368174, -0.280019, 0.43553, -0.48735, 0.0648885, 0.337489, 0.350438, 0.125939, 0.581587, -0.465337, -0.159373, -0.336383, -0.362874, -0.179556, 0.539629, -0.078378, -0.262692, -0.666052, 0.14629, -0.343112, 0.58128, 0.0648885, -0.48735, 0.337488, 0.166894, 0.309872, 0.60239, -0.23992, 0.429801, 0.334912, -0.057781, 0.494006, -0.275802, 0.495058, -0.0168271, -0.296888, -0.424625, 0.248283, -0.336458, 0.428241, 0.246172, 0.313446, -0.281506, -0.403614, 0.33604, -0.341582, 0.267445, 0.497417, 0.288559, 0.166394, -0.620926, -0.0991051, 0.167815, -0.708563, -0.0584219, 0.106796, 0.733013, 0.327186, 0.367579, -0.333741, 0.371101, -0.118874, 0.561522, 0.449986, -0.199232, 0.334815, 0.126557, 0.474903, 0.33819, 0.226799, -0.442883, -0.273913, -0.0585569, -0.0997814, -0.73461, -0.384272, 0.0647745, -0.56134, 0.0647822, -0.384225, -0.56141, -0.219395, -0.442458, -0.314302, -0.0987624, -0.487708, 0.276277, -0.0579022, 0.413011, -0.522099, 0.0855692, 0.290515, -0.645921, 0.371105, -0.118876, -0.561528, -0.141116, -0.120336, 0.713008, -0.426405, 0.0649554, 0.501661, -0.488243, -0.057761, 0.338102, 0.167815, -0.0991051, -0.708563, 0.106396, -0.160909, 0.709585 )
 
 [sub_resource type="DynamicFont" id=19]
-size = 32
+size = 48
+outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 8 )
+font_data = ExtResource( 13 )
 
 [sub_resource type="DynamicFont" id=22]
 font_data = ExtResource( 8 )
 
 [sub_resource type="DynamicFont" id=20]
-size = 63
-font_data = ExtResource( 8 )
+size = 64
+font_data = ExtResource( 12 )
 
 [sub_resource type="BoxShape" id=18]
 
@@ -101,6 +107,8 @@ script = ExtResource( 3 )
 [node name="CaveWalls" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.102844, 0.0426941, 0.00106049 )
 material_override = ExtResource( 1 )
+use_in_baked_light = true
+generate_lightmap = false
 mesh = SubResource( 34 )
 script = ExtResource( 4 )
 
@@ -126,10 +134,10 @@ skeleton = NodePath("")
 transform = Transform( 1, -8.74228e-08, -8.74228e-08, -8.74228e-08, -1, -7.2852e-08, -8.74228e-08, 7.2852e-08, -1, 0, 1, 0 )
 light_energy = 16.0
 
-[node name="Area" type="Area" parent="CaveWalls/Diagonal_Exit"]
+[node name="ExitArea" type="Area" parent="CaveWalls/Diagonal_Exit"]
 transform = Transform( 1, 1.49012e-08, 0, -5.96046e-08, 1, 0, 1.77636e-15, 5.32907e-15, 1, 0.0126867, 0.0146523, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="CaveWalls/Diagonal_Exit/Area"]
+[node name="CollisionShape" type="CollisionShape" parent="CaveWalls/Diagonal_Exit/ExitArea"]
 transform = Transform( 0.995947, 0.0449687, 2.94847e-09, -0.179875, 0.995947, -2.65715e-10, -5.2417e-09, -1.1808e-10, 1, -0.42201, 0.859196, 5.96046e-08 )
 shape = SubResource( 28 )
 
@@ -160,29 +168,35 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 material_override = ExtResource( 1 )
 mesh = SubResource( 1 )
 
-[node name="StaticBody" type="StaticBody" parent="Roof"]
+[node name="RoofStatic" type="StaticBody" parent="Roof"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Roof/StaticBody"]
+[node name="RoofCollisionShape" type="CollisionShape" parent="Roof/RoofStatic"]
 shape = SubResource( 35 )
 
 [node name="Floor" type="MeshInstance" parent="."]
 material_override = ExtResource( 1 )
 mesh = SubResource( 2 )
 
-[node name="StaticBody" type="StaticBody" parent="Floor"]
+[node name="FloorStatic" type="StaticBody" parent="Floor"]
 
-[node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
+[node name="FloorCollisionShape" type="CollisionShape" parent="Floor/FloorStatic"]
 shape = SubResource( 36 )
 
 [node name="Player" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67, 0.75, 33 )
 script = ExtResource( 2 )
 
+[node name="Footsteps" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource( 10 )
+volume_db = -80.0
+autoplay = true
+mix_target = 2
+
 [node name="Model" type="MeshInstance" parent="Player"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 mesh = SubResource( 5 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Player"]
+[node name="PlayerCollision" type="CollisionShape" parent="Player"]
 transform = Transform( 0.7, 0, 0, 0, -5.24537e-08, 1.2, 0, -1.2, -5.24537e-08, 0, 0, 0 )
 shape = SubResource( 6 )
 
@@ -190,14 +204,15 @@ shape = SubResource( 6 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5 )
 
 [node name="Camera" type="Camera" parent="Player/Neck"]
+script = ExtResource( 14 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Player/Neck/Camera"]
+[node name="HUD" type="CanvasLayer" parent="Player/Neck/Camera"]
 
-[node name="ObjectiveDisplay" type="Label" parent="Player/Neck/Camera/CanvasLayer"]
-anchor_left = 0.5
-anchor_top = 0.05
-anchor_right = 0.5
-anchor_bottom = 0.1
+[node name="ObjectiveDisplay" type="Label" parent="Player/Neck/Camera/HUD"]
+anchor_left = 0.47
+anchor_top = 0.125
+anchor_right = 0.52
+anchor_bottom = 0.2
 margin_left = -100.0
 margin_right = 44.0
 margin_bottom = 14.0
@@ -208,7 +223,7 @@ custom_fonts/font = SubResource( 19 )
 text = "Find the gem!"
 script = ExtResource( 6 )
 
-[node name="SeedDisplay" type="Label" parent="Player/Neck/Camera/CanvasLayer"]
+[node name="SeedDisplay" type="Label" parent="Player/Neck/Camera/HUD"]
 anchor_left = 0.85
 anchor_top = 0.941
 anchor_right = 1.0
@@ -222,8 +237,8 @@ custom_fonts/font = SubResource( 22 )
 text = "Seed: "
 script = ExtResource( 9 )
 
-[node name="TimeDisplay" type="Label" parent="Player/Neck/Camera/CanvasLayer"]
-anchor_left = 0.5
+[node name="TimeDisplay" type="Label" parent="Player/Neck/Camera/HUD"]
+anchor_left = 0.49
 anchor_right = 0.5
 margin_left = -30.0
 margin_right = 20.0
@@ -235,33 +250,42 @@ custom_fonts/font = SubResource( 20 )
 text = "4:59"
 script = ExtResource( 7 )
 
-[node name="Timer" type="Timer" parent="Player/Neck/Camera/CanvasLayer/TimeDisplay"]
+[node name="Timer" type="Timer" parent="Player/Neck/Camera/HUD/TimeDisplay"]
 autostart = true
 
-[node name="SpotLight" type="SpotLight" parent="Player/Neck"]
-light_energy = 25.0
+[node name="Flashlight" type="SpotLight" parent="Player/Neck"]
+light_energy = 15.0
+light_size = 1.0
 spot_range = 10.0
+
+[node name="Tune" type="AudioStreamPlayer3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 61, 1, 44 )
+stream = ExtResource( 11 )
+unit_db = 20.0
+unit_size = 25.8
+max_distance = 4096.0
 
 [node name="Objective" type="RigidBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 61, 0, 44 )
 
-[node name="Area" type="Area" parent="Objective"]
+[node name="ObjectiveArea" type="Area" parent="Objective"]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.5, 0 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Objective/Area"]
+[node name="ObjectiveCollision" type="CollisionShape" parent="Objective/ObjectiveArea"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 shape = SubResource( 18 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Objective"]
+[node name="GemCollision" type="CollisionShape" parent="Objective"]
 transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0 )
 shape = SubResource( 16 )
 
-[node name="Gem" type="MeshInstance" parent="Objective/CollisionShape"]
+[node name="Gem" type="MeshInstance" parent="Objective/GemCollision"]
 material_override = ExtResource( 5 )
 mesh = SubResource( 14 )
 skeleton = NodePath("")
 
-[connection signal="body_entered" from="CaveWalls/Diagonal_Exit/Area" to="." method="_on_Area_body_entered"]
-[connection signal="timeout" from="Player/Neck/Camera/CanvasLayer/TimeDisplay/Timer" to="Player/Neck/Camera/CanvasLayer/TimeDisplay" method="_on_Timer_timeout"]
-[connection signal="body_exited" from="Objective/Area" to="." method="_on_Area_body_exited"]
-[connection signal="body_exited" from="Objective/Area" to="CaveWalls" method="_on_Area_body_exited"]
-[connection signal="body_exited" from="Objective/Area" to="Player/Neck/Camera/CanvasLayer/ObjectiveDisplay" method="_on_Area_body_exited"]
+[connection signal="body_entered" from="CaveWalls/Diagonal_Exit/ExitArea" to="." method="_on_Area_Exit_entered"]
+[connection signal="timeout" from="Player/Neck/Camera/HUD/TimeDisplay/Timer" to="Player/Neck/Camera/HUD/TimeDisplay" method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Objective/ObjectiveArea" to="." method="_on_Gem_Found"]
+[connection signal="body_exited" from="Objective/ObjectiveArea" to="CaveWalls" method="_on_Area_body_exited"]
+[connection signal="body_exited" from="Objective/ObjectiveArea" to="Player/Neck/Camera/HUD/ObjectiveDisplay" method="_on_Area_body_exited"]

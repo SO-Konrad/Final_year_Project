@@ -1,6 +1,5 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Material_001.material" type="Material" id=2]
 [ext_resource path="res://Crystal.gd" type="Script" id=6]
 
 [sub_resource type="ArrayMesh" id=1]
@@ -13,12 +12,23 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 96,
-"material": ExtResource( 2 ),
 "name": "Material.001",
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 36
 }
+
+[sub_resource type="SpatialMaterial" id=6]
+resource_local_to_scene = true
+resource_name = "Material.001"
+params_cull_mode = 2
+metallic = 0.59
+roughness = 0.02
+anisotropy_enabled = true
+anisotropy = 1.0
+transmission_enabled = true
+transmission = Color( 1, 1, 1, 1 )
+uv1_triplanar = true
 
 [sub_resource type="ArrayMesh" id=2]
 resource_local_to_scene = true
@@ -30,7 +40,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 96,
-"material": ExtResource( 2 ),
+"material": SubResource( 6 ),
 "name": "Material.001",
 "primitive": 4,
 "skeleton_aabb": [  ],
@@ -47,7 +57,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 96,
-"material": ExtResource( 2 ),
+"material": SubResource( 6 ),
 "name": "Material.001",
 "primitive": 4,
 "skeleton_aabb": [  ],
@@ -64,7 +74,7 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 96,
-"material": ExtResource( 2 ),
+"material": SubResource( 6 ),
 "name": "Material.001",
 "primitive": 4,
 "skeleton_aabb": [  ],
@@ -81,30 +91,30 @@ surfaces/0 = {
 "blend_shape_data": [  ],
 "format": 2194711,
 "index_count": 96,
-"material": ExtResource( 2 ),
+"material": SubResource( 6 ),
 "name": "Material.001",
 "primitive": 4,
 "skeleton_aabb": [  ],
 "vertex_count": 36
 }
 
-[node name="Cylinder" type="MeshInstance"]
-transform = Transform( 0.176777, -0.176777, 0, 0.176777, 0.176777, 0, 0, 0, 0.25, 0, 0, 0 )
+[node name="Crystal" type="MeshInstance"]
+transform = Transform( 0.176777, -0.176777, 0, 0.176777, 0.176777, 0, 0, 0, 0.25, 0.00874746, 0, 0 )
 mesh = SubResource( 1 )
 script = ExtResource( 6 )
 
-[node name="Cylinder001" type="MeshInstance" parent="."]
+[node name="Smaller Crystal" type="MeshInstance" parent="."]
 transform = Transform( 0.553374, 0.239994, -0.252606, -0.342341, 0.462761, -0.310298, 0.0648793, 0.394823, 0.517238, 0.653052, 0.121908, 0.719747 )
 mesh = SubResource( 2 )
 
-[node name="Cylinder002" type="MeshInstance" parent="."]
+[node name="Even Smaller Crystal" type="MeshInstance" parent="."]
 transform = Transform( 0.479247, 0.0154599, -0.157845, 0.0749113, 0.420765, 0.268656, 0.139794, -0.278476, 0.397165, 0.27494, 0.191568, -0.768983 )
 mesh = SubResource( 3 )
 
-[node name="Cylinder003" type="MeshInstance" parent="."]
+[node name="Smallest Crystal" type="MeshInstance" parent="."]
 transform = Transform( 0.203746, -0.323046, 0.247451, -0.0622436, 0.248738, 0.375976, -0.40214, -0.202172, 0.067178, -0.535351, 0.207797, -0.563936 )
 mesh = SubResource( 4 )
 
-[node name="Cylinder004" type="MeshInstance" parent="."]
+[node name="Even Smallest Crystal" type="MeshInstance" parent="."]
 transform = Transform( 0.163134, -0.209839, -0.350947, -0.093293, 0.34878, -0.251909, 0.398112, 0.167718, 0.0847757, -0.877749, 0.737852, 0.266506 )
 mesh = SubResource( 5 )

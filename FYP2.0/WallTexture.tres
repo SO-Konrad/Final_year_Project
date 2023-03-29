@@ -1,0 +1,13 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://rock_rough.png" type="Texture" id=1]
+
+[resource]
+resource_local_to_scene = true
+vertex_color_is_srgb = true
+albedo_color = Color( 0.317647, 0.278431, 0.278431, 1 )
+albedo_texture = ExtResource( 1 )
+metallic = 0.2
+metallic_specular = 0.0
+uv1_scale = Vector3( 0.5, 0.5, 0.2 )
+uv1_triplanar = true

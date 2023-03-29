@@ -11,7 +11,6 @@ var sizeOptions = [75,100,125]
 func _on_Main_Menu_pressed():
 	global.mapSize = sizeOptions[size.get_selected_id()]
 	global.caveSeed = setSeed.text
-	print(global.mapSize)
 	get_tree().change_scene("res://Main.tscn")
 
 

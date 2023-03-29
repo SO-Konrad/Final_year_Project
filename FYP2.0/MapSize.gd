@@ -4,7 +4,7 @@ extends OptionButton
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	self.add_item("Small")
-	self.add_item("Normal")
+	self.add_item("Medium")
 	self.add_item("Large")
 
 
